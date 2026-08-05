@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en" class="h-100">
+  <head>
+
+    <title>CG-2025 - TP1</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="assets/bootstrap.min.css" rel="stylesheet"> 
+
+    <!-- Custom styles for this template -->
+    <link href="style.css" rel="stylesheet">
+
+    <!-- del proyecto -->
+    <script type="text/javascript" id="includedscript" src="ejercicio.js"></script>
+    <script type="text/javascript" id="includedscript" src="tp1.js"></script>
+
+  </head>
+
+  <body class="d-flex flex-column h-100 text-white bg-dark">
+    <div class="container-fluid">
+      <div class="row" id="buttondiv">
+        <div class="col-md-4">
+          <input type="file" class="form-control" id="inputfile" />          
+        </div>       
+        <div class="col-md-1", id="levels">
+          <input type="number" class="form-control" id="inputlevels" value="1" min="1" max="20" step="1"/>
+        </div>
+        <div class="col-md-3">
+          <select class="form-control" id="ditherAlgorithm">
+            <option value="floyd-steinberg">Floyd-Steinberg</option>
+            <option value="jarvis-judice">Jarvis-Judice-Ninke</option>
+          </select>
+        </div> 
+      </div>
+      <div class="row">
+        <div class="col-md-4" id="inputImage">
+          <canvas id="canvasinput"/>
+        </div>
+        <div class="col-md-4">
+          <canvas id="canvasresult"/>
+        </div>
+        <div class="col-md-4">
+          <canvas id="canvasdiff"/>
+        </div>
+      </div>
+  </body>
+</html>
