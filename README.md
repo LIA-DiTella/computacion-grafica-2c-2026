@@ -1,4 +1,4 @@
-# Computacion Gráfica 2C 2025 
+# Computacion Gráfica 2C 2026
 
 ## GitHub Setup
 Recomendamos trabajar en tu propio repositorio privado. Recomendamos crear un repositorio privado espejado (mirrored) con múltiples remotes. 
