@@ -1,0 +1,47 @@
+
+html {
+	color: #aaa;
+	background-color: #333;
+	font-family: Arial;
+}
+body {
+	background-image: url(space_background.png);
+    background-size: 1600px;
+	padding: 0;
+	margin: 0;
+}
+#rocket, .propeller {
+	display: block;
+	position: fixed;
+	cursor: none;
+}
+#rocket {
+	width: 204px;
+	height: 204px;
+	left: -102px;
+	top: -102px;
+	
+}
+.propeller {
+	width: 100px;
+	height: 100px;
+	left: -50px;
+	top: -50px;
+}
+#controls {
+	position: fixed;
+	background-color: rgba(133, 2, 173, 0.5);
+	padding: 1em;
+	top: 1em;
+	left: 1em;
+	font-family: 'Courier New', monospace;
+}
+#controls table {
+	color: white;
+}
+#controls th, #controls td {
+	text-align: left;
+}
+#controls td {
+	padding-left: .2em;
+}
