@@ -1,4 +1,4 @@
-# TP2: Transformaciones 2D — Computación Gráfica (UTDT)
+# Actividad 2: Transformaciones 2D 
 
 ## Descripción del Juego
 
