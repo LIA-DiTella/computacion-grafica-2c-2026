@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>TP3 - Test Suite</title>
+  <style>
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      max-width: 800px;
+      margin: 2rem auto;
+      padding: 1rem;
+      background: #f5f5f5;
+    }
+    .container {
+      background: white;
+      padding: 2rem;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    button {
+      background: #007acc;
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      font-size: 16px;
+      border-radius: 4px;
+      cursor: pointer;
+      margin: 8px 4px;
+    }
+    button:hover { background: #005a9e; }
+    #console {
+      background: #1e1e1e;
+      color: #d4d4d4;
+      font-family: 'Consolas', 'Monaco', monospace;
+      padding: 1rem;
+      border-radius: 4px;
+      margin-top: 1rem;
+      height: 400px;
+      overflow-y: auto;
+      white-space: pre-wrap;
+      font-size: 14px;
+    }
+    .info {
+      background: #e3f2fd;
+      padding: 1rem;
+      border-radius: 4px;
+      margin-bottom: 1rem;
+      border-left: 4px solid #2196f3;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>TP3 - Test de Funciones Core</h1>
+    
+    <div class="info">
+      <h3>Instrucciones:</h3>
+      <p>Este test verifica que todas las funciones core del TP3 estén implementadas correctamente.</p>
+      <p><strong>Funciones testeadas:</strong> Vec, mat4Mul, mat4Vec4, lookAt, perspective, orthographic</p>
+    </div>
+
+    <button onclick="runTests()">Ejecutar Tests</button>
+    <button onclick="clearConsole()">Limpiar Consola</button>
+    <button onclick="runIndividualTests()">Tests Individuales</button>
+
+    <div id="inputSection" style="display: none; margin-top: 1rem;">
+      <label for="testInput" style="display: block; margin-bottom: 0.5rem; font-weight: bold;">
+        💻 Ejecutar Test o Función:
+      </label>
+      <div style="display: flex; gap: 8px;">
+        <input 
+          type="text" 
+          id="testInput" 
+          placeholder="Ej: testVecAdd() o Vec.add([1,2,3], [4,5,6])"
+          style="flex: 1; padding: 8px; border: 1px solid #ccc; border-radius: 4px; font-family: monospace;"
+          onkeypress="if(event.key==='Enter') executeUserInput()"
+        />
+        <button onclick="executeUserInput()" style="padding: 8px 16px;">▶️ Ejecutar</button>
+      </div>
+    </div>
+
+    <div id="console"></div>
+  </div>
+
+  <!-- Cargar scripts de implementación -->
+  <script src="ejercicio3.js"></script>
+  
+  <!-- Cargar test suite -->
+  <script src="test-ejercicio3.js"></script>
+
+  <script>
+    const consoleDiv = document.getElementById('console');
+    const originalConsole = { ...console };
+    
+    function createCustomConsole() {
+      ['log', 'error', 'warn', 'info'].forEach(method => {
+        console[method] = function(...args) {
+          const timestamp = new Date().toLocaleTimeString();
+          const message = args.map(arg => 
+            typeof arg === 'object' ? JSON.stringify(arg) : String(arg)
+          ).join(' ');
+          
+          const color = method === 'error' ? '#ff6b6b' : 
+                       method === 'warn' ? '#ffa726' : '#d4d4d4';
+          
+          consoleDiv.innerHTML += `<span style="color: ${color}">[${timestamp}] ${message}</span>\n`;
+          consoleDiv.scrollTop = consoleDiv.scrollHeight;
+          
+          originalConsole[method](...args);
+        };
+      });
+    }
+
+    function runTests() {
+      clearConsole();
+      console.log('Iniciando tests del TP3...\n');
+
+      // Verificar si los archivos principales están cargados
+      if (typeof Vec === 'undefined' && typeof mat4Mul === 'undefined') {
+        console.error('❌ No hay funciones en ejercicio3.js');
+        return;
+      }
+      
+      console.log('✅ Archivo ejercicio3.js cargado correctamente');
+      console.log('🧪 Ejecutando tests para funciones implementadas...\n');
+      
+      runAllTests();
+    }
+    
+    function runIndividualTests() {
+      clearConsole();
+      console.log('Ahora puedes escribir el nombre de cualquier test en esta consola:');
+      console.log('');
+      console.log('Tests disponibles:');
+      console.log('Cámara: testSetupCamera, testLookAt');
+      console.log('Proyecciones: testOrthographic, testProjective, testPerspective, testNdcToScreen');
+      console.log('Integración: testIntegration');
+      console.log('');
+      console.log('Ejemplos de uso:');
+      console.log('Para probar la cámara: testLookAt()');
+      console.log('Para probar proyección: testPerspective()');
+      console.log('');
+      console.log('También puedes probar funciones individuales:');
+      console.log(' lookAt([0,0,5], [0,0,0], [0,1,0])');
+      console.log(' orthographic(-1, 1, -1, 1, -1, -10)');
+      console.log(' perspective(-1, 1, -1, 1, -1, -10)');
+
+      // Hacer funciones de test globalmente accesibles
+      window.testLookAt = testLookAt;
+      window.testSetupCamera = testSetupCamera;
+      window.testOrthographic = testOrthographic;
+      window.testProjective = testProjective;
+      window.testPerspective = testPerspective;
+      window.testNdcToScreen = testNdcToScreen;
+      window.testIntegration = testIntegration;
+
+      // Exponer algunas matrices de utilidad para pruebas
+      window.identity = [1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,1];
+      window.scale2 = [2,0,0,0, 0,2,0,0, 0,0,2,0, 0,0,0,1];
+      window.translate = [1,0,0,0, 0,1,0,0, 0,0,1,0, 5,6,7,1];
+      
+      console.log('¡Usa el campo de entrada de arriba!');
+
+      // Mostrar la sección de entrada
+      document.getElementById('inputSection').style.display = 'block';
+      document.getElementById('testInput').focus();
+    }
+    
+    function executeUserInput() {
+      const input = document.getElementById('testInput').value.trim();
+      if (!input) return;
+      
+      console.log(`> ${input}`);
+      
+      try {
+        // Evaluar la entrada del usuario de manera segura
+        const result = eval(input);
+        if (result !== undefined) {
+          console.log('Resultado:', result);
+        }
+      } catch (error) {
+        console.error('Error:', error.message);
+      }
+      
+      document.getElementById('testInput').value = '';
+    }
+    
+    function clearConsole() {
+      consoleDiv.innerHTML = '';
+    }
+
+    // Inicializar consola personalizada
+    createCustomConsole();
+
+    // Mensaje de bienvenida
+    console.log('TP3 Test Runner cargado correctamente.');
+    console.log('Haz clic en "Ejecutar Tests" para verificar tu implementación.');
+  </script>
+</body>
+</html>

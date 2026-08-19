@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>CG TP3 — Cámara en Perspectiva & Rasterizador Mínimo (JS)</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+  <div class="wrap">
+    <canvas id="cv" width="960" height="600" aria-label="Lienzo de render"></canvas>
+    <div class="side">
+      <h1>Perspectiva & Rasterizador (JS)</h1>
+      <!-- Controles de Perspectiva -->
+      <div>
+        <div id="perspectiveControls">
+          <label for="fov">FOV: <span id="fovValue">60°</span></label>
+          <input id="fov" type="range" min="20" max="110" value="60" />
+        </div>
+
+        <div id="orthographicControls" style="display: none;">
+          <label for="orthoLeft">Left: <span id="orthoLeftValue">2.0</span></label>
+          <input id="orthoLeft" type="range" min="0.5" max="5.0" step="0.1" value="2.0" />
+
+          <label for="orthoBottom">Bottom: <span id="orthoBottomValue">2.0</span></label>
+          <input id="orthoBottom" type="range" min="0.5" max="5.0" step="0.1" value="2.0" />
+        </div>
+
+        <label for="near">near: <span id="nearValue">-0.10</span></label>
+        <input id="near" type="range" min="-500" max="-1" value="-10" />
+
+        <label for="far">far: <span id="farValue">-10.00</span></label>
+        <input id="far" type="range" min="-4000" max="-100" value="-1000" />
+
+        <label for="azimuth">Azimuth: <span id="azimuthValue">25°</span></label>
+        <input id="azimuth" type="range" min="-180" max="180" value="25" />
+
+        <label for="elevation">Elevación: <span id="elevationValue">15°</span></label>
+        <input id="elevation" type="range" min="-45" max="45" value="15" />
+      </div>
+
+      <div style="margin-top:12px; display:flex; gap:8px; align-items:center">
+        <button id="fillBtn" type="button" title="Relleno con z-buffer">Relleno</button>
+        <button id="depthBtn" type="button" title="Visualización de profundidad">Depth</button>
+      </div>
+
+      <div style="margin-top:12px; display:flex; gap:8px; align-items:center">
+        <button id="perspectiveBtn" type="button" title="Proyección en perspectiva">Perspectiva</button>
+        <button id="orthographicBtn" type="button" title="Proyección ortográfica">Ortográfica</button>
+      </div>
+
+      <!-- Controles de Configuración -->
+      <div class="note">
+        <b>Resumen:</b> Cámara pinhole (<code>lookAt</code>), proyección en perspectiva
+        (<code>perspective</code>), proyección ortográfica (<code>orthographic</code>), 
+        NDC→pantalla y raster con baricéntricas + z-buffer. El <em>back-face culling</em> 
+        asume orientación CCW en pantalla.
+      </div>
+
+      <div class="matrix-display">
+        <h3>Matrices Actuales</h3>
+        
+        <div class="matrix-section">
+          <h4>Cámara (eye, center, up)</h4>
+          <div id="cameraParams" style="font-family: monospace; font-size: 12px; line-height: 1.2;"></div>
+        </div>
+
+        <div class="matrix-section">
+          <h4>View Matrix</h4>
+          <div id="viewMatrix" style="font-family: monospace; font-size: 11px; line-height: 1.1;"></div>
+        </div>
+
+        <div class="matrix-section">
+          <h4>Projection Matrix</h4>
+          <div id="projectionMatrix" style="font-family: monospace; font-size: 11px; line-height: 1.1;"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Cargar scripts -->
+  <script src="ejercicio3.js"></script>
+  <script src="tp3.js"></script>
+  <script src="world-view.js"></script>
+</body>
+</html>
