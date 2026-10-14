@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TP 9 · Superficies implícitas</title>
+    <link rel="icon" href="data:,">
+    <link rel="stylesheet" href="style.css">
+    <!-- Todo es local: abrir sin servidor ni conexión a internet. -->
+    <script defer src="vendor/three.min.js"></script>
+    <script defer src="vendor/OrbitControls.js"></script>
+    <script defer src="tablas.js"></script>
+    <script defer src="campo.js"></script>
+    <script defer src="malla.js"></script>
+    <script defer src="ejercicio.js"></script>
+    <script defer src="viewer.js"></script>
+    <script defer src="app.js"></script>
+</head>
+<body>
+    <header>
+        <h1>TP 9 · Superficies implícitas</h1>
+        <span>Computación Gráfica · UTDT · 2026</span>
+    </header>
+    <main class="workspace">
+        <aside class="sidebar" aria-label="Controles de la superficie">
+            <fieldset id="editor">
+                <legend>01 <span>Modelar el campo</span></legend>
+                <label class="control" for="scene">Escena
+                    <select id="scene">
+                        <option value="pareja">Dos metaballs</option>
+                        <option value="esfera">Una esfera</option>
+                        <option value="racimo">Racimo</option>
+                        <option value="anillo">Anillo</option>
+                    </select>
+                </label>
+                <div class="control">
+                    <label for="level">Nivel de la superficie <span>ρ</span></label>
+                    <div class="slider-row">
+                        <input id="level" type="range" min="0.05" max="1.5" step="0.01" value="0.35">
+                        <output id="level-value" for="level">0.35</output>
+                    </div>
+                </div>
+                <div class="ball-editor">
+                    <label class="control" for="ball">Metaball seleccionada
+                        <select id="ball"></select>
+                    </label>
+                    <div class="axis-row"><label for="x">X</label><input id="x" type="range" min="-1.5" max="1.5" step="0.05"><output id="x-value" for="x"></output></div>
+                    <div class="axis-row"><label for="y">Y</label><input id="y" type="range" min="-1.5" max="1.5" step="0.05"><output id="y-value" for="y"></output></div>
+                    <div class="axis-row"><label for="z">Z</label><input id="z" type="range" min="-1.5" max="1.5" step="0.05"><output id="z-value" for="z"></output></div>
+                    <div class="axis-row radius-row"><label for="radius">Radio</label><input id="radius" type="range" min="0.3" max="1.5" step="0.05"><output id="radius-value" for="radius"></output></div>
+                    <div class="button-row"><button id="add-ball" type="button">Agregar</button><button id="remove-ball" type="button">Quitar</button></div>
+                </div>
+                <p class="hint">Cada metaball aporta al campo. Al acercarlas, sus superficies se unen suavemente.</p>
+            </fieldset>
+            <fieldset id="extraction">
+                <legend>02 <span>Extraer la malla</span></legend>
+                <label class="control" for="resolution">Celdas por eje
+                    <select id="resolution">
+                        <option value="12">12 × 12 × 12</option>
+                        <option value="20">20 × 20 × 20</option>
+                        <option value="32" selected>32 × 32 × 32</option>
+                        <option value="48">48 × 48 × 48</option>
+                        <option value="64">64 × 64 × 64</option>
+                    </select>
+                </label>
+                <p id="grid-info" class="hint"></p>
+                <button id="generate" class="primary" type="button">Generar malla</button>
+                <button id="download" type="button" disabled>Descargar OBJ</button>
+                <p id="status" role="status" aria-live="polite">Preparando la superficie…</p>
+                <p id="error-message" class="error" role="alert" hidden></p>
+            </fieldset>
+            <fieldset class="display-options">
+                <legend>Vista</legend>
+                <label><input id="wireframe" type="checkbox" checked> Triangulación</label>
+                <label><input id="flat" type="checkbox"> Caras planas</label>
+                <label><input id="box" type="checkbox"> Dominio de muestreo</label>
+                <button id="reset-camera" type="button">Restablecer vista</button>
+            </fieldset>
+        </aside>
+        <section class="comparison" id="viewports" aria-label="Comparación de representaciones">
+            <div class="view" id="implicit-view" tabindex="0" aria-label="Superficie implícita. Arrastrar para girar, rueda para acercar; flechas para girar y signos más o menos para zoom.">
+                <div class="view-title"><span class="dot implicit-dot"></span><h2>Superficie implícita</h2><span class="tag">f(x, y, z) = ρ</span></div>
+                <p class="view-note">Evaluación directa del campo</p>
+            </div>
+            <div class="view" id="mesh-view" tabindex="0" aria-label="Malla de Marching Cubes. Comparte la cámara con la superficie implícita.">
+                <div class="view-title"><span class="dot mesh-dot"></span><h2>Malla triangular</h2><span id="mesh-badge" class="tag">Marching Cubes</span></div>
+                <p id="mesh-empty" class="empty-message">Generá una malla para comparar las dos representaciones.</p>
+                <p id="mesh-info" class="view-note">Marching Cubes</p>
+            </div>
+            <div class="comparison-help">Arrastrar: girar · Rueda / pellizco: zoom · Cámaras sincronizadas</div>
+            <noscript><p class="error">Activá JavaScript para usar el visor.</p></noscript>
+        </section>
+    </main>
+    <footer><span>De un campo escalar a una malla de triángulos</span><span id="timing"></span></footer>
+</body>
+</html>
