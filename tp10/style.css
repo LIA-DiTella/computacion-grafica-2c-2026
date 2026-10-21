@@ -1,0 +1,59 @@
+:root { color-scheme: light; font: 14px Arial, sans-serif; color: #293239; background: #f5f6f7; }
+* { box-sizing: border-box; }
+body { margin: 0; height: 100dvh; min-height: 590px; display: grid; grid-template-rows: 64px minmax(0,1fr) 32px; }
+header { padding: 0 26px; background: white; border-bottom: 1px solid #dce1e5; display: flex; align-items: center; }
+h1 { font-size: 18px; margin: 0; font-weight: 600; }
+main { display: grid; grid-template-columns: 278px minmax(0,1fr); min-height: 0; }
+aside { overflow-y: auto; padding: 24px 22px; border-right: 1px solid #dce1e5; background: #fff; }
+fieldset { border: 0; border-bottom: 1px solid #e2e7ea; margin: 0 0 22px; padding: 0 0 22px; min-width: 0; }
+legend { padding: 0; margin-bottom: 16px; font-size: 13px; font-weight: 600; }
+legend > span { margin-right: 9px; color: #94a0a7; font-size: 11px; font-weight: normal; }
+label { display: flex; align-items: center; justify-content: space-between; font-size: 12px; margin: 13px 0 7px; }
+label:first-of-type { margin-top: 0; }
+label > span { display: flex; align-items: center; }
+input, select, button { font: inherit; }
+select { width: 100%; background: #fff; }
+select, button, .file-button { color: inherit; border: 1px solid #cbd3d8; border-radius: 5px; padding: 8px 10px; min-height: 34px; }
+button { background: #fff; cursor: pointer; font-size: 12px; }
+button:hover, .file-button:hover { background: #edf3f4; border-color: #9eafb8; }
+input[type=range] { width: 100%; accent-color: #327780; margin: 2px 0 5px; cursor: pointer; }
+input[type=checkbox] { accent-color: #327780; margin: 0 7px 0 0; }
+input[type=color] { width: 42px; height: 28px; border: 0; padding: 0; background: none; cursor: pointer; }
+:disabled { opacity: .45; cursor: default !important; }
+:focus-visible { outline: 2px solid #3593ae; outline-offset: 3px; }
+output { font-variant-numeric: tabular-nums; color: #657780; font-size: 12px; }
+.check { justify-content: flex-start; margin: 15px 0; }
+.file-button { justify-content: center; cursor: pointer; position: relative; overflow: hidden; margin: 12px 0 8px; }
+.file-button input { position: absolute; inset: 0; opacity: 0; width: 100%; cursor: pointer; }
+.file-button:focus-within { outline: 2px solid #3593ae; outline-offset: 3px; }
+.color-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+.color-row label { margin: 0; }
+.hint { font-size: 11px; color: #7b8890; line-height: 1.6; margin: 7px 0 0; overflow-wrap: anywhere; }
+#restablecer { width: 100%; }
+.docs { display: block; font-size: 12px; color: #327780; margin-top: 15px; }
+.laboratorio { min-width: 0; min-height: 0; padding: 26px 24px 18px; display: flex; flex-direction: column; gap: 16px; }
+.lab-heading { display: flex; align-items: center; justify-content: space-between; gap: 20px; }
+h2 { margin: 0 0 6px; font-size: 17px; font-weight: 500; }
+.lab-heading p { margin: 0; color: #7a8790; font-size: 12px; }
+.vistas { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; flex: 1; min-height: 220px; }
+figure { margin: 0; min-width: 0; min-height: 0; display: grid; grid-template-rows: 74px minmax(0,1fr) 34px; border-radius: 8px; overflow: hidden; background: #12171f; }
+canvas { width: 100%; height: 100%; display: block; touch-action: none; cursor: grab; }
+canvas:active { cursor: grabbing; }
+figcaption { padding: 20px 22px 0; display: flex; align-items: flex-start; gap: 12px; pointer-events: none; }
+h3 { color: #f4f6f8; font-size: 17px; font-weight: 500; margin: 0 0 7px; }
+figcaption p { font-size: 11px; color: #95a2ae; margin: 0; line-height: 1.5; }
+.view-index { border: 1px solid #53606d; color: #b4bfc9; padding: 4px 7px; border-radius: 4px; font-size: 11px; }
+.view-index.accent { color: #eea477; border-color: #725946; }
+.view-foot { align-self: center; padding: 0 10px; text-align: center; color: #94a1ad; font-size: 11px; pointer-events: none; }
+.help { display: flex; align-items: center; justify-content: space-between; gap: 14px; color: #75828a; font-size: 11px; }
+.help button { border: 0; background: transparent; color: #327780; padding: 3px 0; min-height: 24px; }
+.referencia { align-self: center; width: min(100%, 340px); min-height: 196px; flex-shrink: 0; border: 1px solid #dce3e7; border-radius: 6px; background: #fafbfc; overflow: hidden; }
+#minimapa { width: 100%; height: 196px; min-height: 196px; cursor: default; touch-action: auto; }
+#error { white-space: pre-wrap; overflow-wrap: anywhere; max-height: 180px; overflow: auto; margin: 0; padding: 12px; color: #9c3030; border: 1px solid #e7c8c8; background: #fff5f5; font: 12px/1.5 monospace; }
+[hidden] { display: none !important; }
+footer { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 0 22px; background: #fff; border-top: 1px solid #dce1e5; font-size: 12px; color: #758189; }
+@media(max-width:1100px) { main { grid-template-columns: 248px minmax(0,1fr); } aside { padding: 22px 17px; } .laboratorio { padding: 20px 16px 14px; } figcaption { padding: 16px 15px 0; gap: 8px; } figcaption p { max-width: 160px; } .lab-heading { align-items: flex-start; } }
+@media(max-width:850px) { body { height: auto; min-height: 100dvh; display: block; } header { min-height: 60px; padding: 14px 18px; } main { display: flex; flex-direction: column; } .laboratorio { order: -1; } .vistas { height: 430px; flex: auto; } aside { border-top: 1px solid #dce1e5; border-right: 0; display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 20px; } footer { padding: 13px 18px; flex-wrap: wrap; } }
+@media(max-width:560px) { h1 { font-size: 16px; } .lab-heading { flex-direction: column; gap: 12px; } .vistas { grid-template-columns: 1fr; grid-template-rows: 340px 340px; height: auto; } figcaption p { max-width: none; } .help { align-items: flex-start; } .help span { max-width: 220px; line-height: 1.6; } aside { display: block; padding: 22px; } }
+@media(min-width:851px) and (max-height:760px) { body { min-height: 660px; } .laboratorio { gap: 12px; padding-top: 18px; } .referencia, #minimapa { min-height: 164px; } #minimapa { height: 164px; } }
+@media(max-width:560px) { #minimapa { height: 210px; } }

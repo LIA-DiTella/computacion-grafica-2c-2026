@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Modelos de iluminación</title>
+    <link rel="icon" href="data:,">
+    <link rel="stylesheet" href="style.css">
+    <script defer src="algebra.js"></script>
+    <script defer src="modelos.js"></script>
+    <script defer src="ejercicio.js"></script>
+    <script defer src="shaders.js"></script>
+    <script defer src="visor.js"></script>
+    <script defer src="minimapa.js"></script>
+    <script defer src="app.js"></script>
+</head>
+<body>
+    <header><h1>Modelos de iluminación</h1></header>
+    <main>
+        <aside aria-label="Controles de iluminación">
+            <fieldset>
+                <legend><span>01</span> Geometría</legend>
+                <label for="modelo">Modelo</label>
+                <select id="modelo"><option value="esfera">Esfera</option><option value="toro">Toro</option><option value="cubo">Cubo</option><option value="obj" hidden>OBJ cargado</option></select>
+                <label for="detalle">Detalle de la malla</label>
+                <select id="detalle"><option value="8">Bajo</option><option value="16" selected>Medio</option><option value="32">Alto</option></select>
+                <label class="check"><input id="caras" type="checkbox"> Normales por cara</label>
+                <label for="escalaY">Escala vertical <output for="escalaY" id="escalaY-valor"></output></label>
+                <input id="escalaY" type="range" min="0.5" max="1.5" step="0.05" value="1">
+                <label class="file-button" for="archivo">Cargar OBJ<input id="archivo" type="file" accept=".obj"></label>
+                <p class="hint" id="modelo-info">Preparando la geometría…</p>
+            </fieldset>
+            <fieldset>
+                <legend><span>02</span> Material</legend>
+                <div class="color-row"><label for="color">Color base</label><input id="color" type="color" value="#e77942"></div>
+                <label for="ka"><span><input id="usar-ambiente" type="checkbox" checked aria-label="Activar componente ambiente"> Ambiente · Kₐ</span><output id="ka-valor" for="ka"></output></label>
+                <input id="ka" type="range" min="0" max="1" step="0.05" value="0.4">
+                <label for="kd"><span><input id="usar-difusa" type="checkbox" checked aria-label="Activar componente difusa"> Difusa · Kd</span><output id="kd-valor" for="kd"></output></label>
+                <input id="kd" type="range" min="0" max="1" step="0.05" value="0.65">
+                <label for="ks"><span><input id="usar-especular" type="checkbox" checked aria-label="Activar componente especular"> Especular · Ks</span><output id="ks-valor" for="ks"></output></label>
+                <input id="ks" type="range" min="0" max="1" step="0.05" value="0.7">
+                <label for="brillo">Exponente · α <output id="brillo-valor" for="brillo"></output></label>
+                <input id="brillo" type="range" min="1" max="256" step="1" value="64">
+                <p class="hint">Un exponente mayor concentra el reflejo especular.</p>
+            </fieldset>
+            <fieldset>
+                <legend><span>03</span> Luz direccional</legend>
+                <label for="luzAzimut">Azimut <output id="luzAzimut-valor" for="luzAzimut"></output></label>
+                <input id="luzAzimut" type="range" min="-180" max="180" value="-35">
+                <label for="luzElevacion">Elevación <output id="luzElevacion-valor" for="luzElevacion"></output></label>
+                <input id="luzElevacion" type="range" min="-85" max="85" value="40">
+                <label for="intensidad">Intensidad · I <output id="intensidad-valor" for="intensidad"></output></label>
+                <input id="intensidad" type="range" min="0" max="2" step="0.05" value="1">
+                <label for="ambiente">Luz ambiente · Iₐ <output id="ambiente-valor" for="ambiente"></output></label>
+                <input id="ambiente" type="range" min="0" max="1" step="0.05" value="0.25">
+                <p class="hint">La luz permanece fija en el mundo al girar la cámara.</p>
+            </fieldset>
+            <button id="restablecer" type="button">Restablecer escena</button>
+            <a class="docs" href="README.md">Consigna</a>
+        </aside>
+        <section class="laboratorio" aria-label="Comparación de sombreado">
+            <div class="lab-heading"><div><h2>Misma luz. Distinto sombreado.</h2><p>Modelo de iluminación de Phong en ambas vistas.</p></div></div>
+            <div class="vistas">
+                <figure><figcaption><span class="view-index">A</span><div><h3>Gouraud</h3><p>Iluminar vértices → interpolar colores</p></div></figcaption><canvas id="gouraud" tabindex="0" aria-label="Sombreado de Gouraud. Arrastrar o usar las flechas para girar; rueda o signos más y menos para acercar."></canvas><span class="view-foot">Color calculado por vértice</span></figure>
+                <figure><figcaption><span class="view-index accent">B</span><div><h3>Phong</h3><p>Interpolar normales → iluminar fragmentos</p></div></figcaption><canvas id="phong" tabindex="0" aria-label="Sombreado de Phong. Cámara sincronizada con Gouraud."></canvas><span class="view-foot">Color calculado por fragmento</span></figure>
+            </div>
+            <div class="help"><span>Arrastrar: girar cámara · Rueda: acercar · Flechas: girar</span><button type="button" id="vista-inicial">Restablecer vista</button></div>
+            <section class="referencia" aria-label="Referencia de cámara y luz en el mundo">
+                <canvas id="minimapa" role="img" aria-label="Vista del mundo: caja del objeto, cámara, frustum abreviado y dirección hacia la luz L."></canvas>
+            </section>
+            <p id="error" role="alert" hidden></p>
+            <noscript>Activá JavaScript para usar el visor.</noscript>
+        </section>
+    </main>
+    <footer><span>Rasterizar → calcular el color</span><span id="estado" role="status" aria-live="polite">Iniciando WebGL…</span></footer>
+</body>
+</html>
