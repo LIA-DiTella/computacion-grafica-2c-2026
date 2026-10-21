@@ -134,7 +134,16 @@ flowchart TD
     IN --> FP["Fragment: main() llama a iluminarPhong()"]
     FG --> C["gl_FragColor"]
     FP --> C
+
+    classDef vertex fill:#e6f1ff,stroke:#3973ac,color:#17324d;
+    classDef fragment fill:#fff0df,stroke:#b96d22,color:#5b350f;
+    classDef webgl fill:#f1f3f5,stroke:#87939e,color:#374151;
+    class V,T,S,G vertex;
+    class FG,FP,C fragment;
+    class IC,IN webgl;
 ```
+
+**Azul:** vertex shader. **Naranja:** fragment shader. **Gris:** interpolación de WebGL.
 
 Referencia: material **8.0 Modelos de iluminación**, modelo de Phong (págs. 32–57),
 ambiente (65), Gouraud y Phong (77–82), y transformaciones de normales (83–122).
