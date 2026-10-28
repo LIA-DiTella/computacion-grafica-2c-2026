@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="490" viewBox="0 0 900 490" role="img" aria-labelledby="title desc">
+  <title id="title">Una repetición y dos repeticiones por eje</title>
+  <desc id="desc">Dos planos del mismo tamaño con el damero de la aplicación. A la izquierda las coordenadas u y v van de 0 a 1 y hay una imagen completa. A la derecha van de 0 a 2 y hay cuatro copias, separadas por líneas naranjas. El eje u apunta a la derecha y el eje v hacia abajo.</desc>
+  <defs>
+    <pattern id="damero" width="32" height="32" patternUnits="userSpaceOnUse">
+      <rect width="32" height="32" fill="#f8e9cf"/>
+      <path d="M16 0h16v16H16zM0 16h16v16H0z" fill="#182d43"/>
+    </pattern>
+    <pattern id="damero-doble" width="16" height="16" patternUnits="userSpaceOnUse">
+      <rect width="16" height="16" fill="#f8e9cf"/>
+      <path d="M8 0h8v8H8zM0 8h8v8H0z" fill="#182d43"/>
+    </pattern>
+    <marker id="flecha" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M0 0L10 5L0 10z" fill="#45566b"/>
+    </marker>
+  </defs>
+  <rect width="900" height="490" fill="white"/>
+  <g font-family="Arial, Helvetica, sans-serif" fill="#182d43">
+    <text x="28" y="32" font-size="22" font-weight="bold">El mismo plano con distintas repeticiones</text>
+    <text x="28" y="56" font-size="16" fill="#45566b">Modo REPEAT: cada intervalo de longitud 1 recorre la imagen completa.</text>
+
+    <g text-anchor="middle" font-size="19" font-weight="bold">
+      <text x="212" y="95">1 repetición por eje</text>
+      <text x="668" y="95">2 repeticiones por eje</text>
+    </g>
+
+    <g transform="translate(84 156)">
+      <rect width="256" height="256" fill="url(#damero)"/>
+      <rect width="256" height="256" fill="none" stroke="#bb5400" stroke-width="3"/>
+    </g>
+    <g transform="translate(540 156)">
+      <rect width="256" height="256" fill="url(#damero-doble)"/>
+      <path d="M128 0V256M0 128H256" stroke="white" stroke-width="5"/>
+      <path d="M128 0V256M0 128H256" stroke="#bb5400" stroke-width="3" stroke-dasharray="8 5"/>
+      <rect width="256" height="256" fill="none" stroke="#bb5400" stroke-width="3"/>
+    </g>
+
+    <g fill="none" stroke="#45566b" stroke-width="1.5">
+      <path d="M84 137H364" marker-end="url(#flecha)"/>
+      <path d="M64 156V434" marker-end="url(#flecha)"/>
+      <path d="M540 137H820" marker-end="url(#flecha)"/>
+      <path d="M520 156V434" marker-end="url(#flecha)"/>
+      <path d="M84 132V142M212 132V142M340 132V142M540 132V142M668 132V142M796 132V142"/>
+      <path d="M59 156H69M59 284H69M59 412H69M515 156H525M515 284H525M515 412H525"/>
+    </g>
+    <g font-size="16" text-anchor="middle">
+      <text x="84" y="125">0</text><text x="212" y="125">0.5</text><text x="340" y="125">1</text>
+      <text x="540" y="125">0</text><text x="668" y="125">1</text><text x="796" y="125">2</text>
+      <text x="378" y="142" font-style="italic">u</text><text x="834" y="142" font-style="italic">u</text>
+      <text x="64" y="452" font-style="italic">v</text><text x="520" y="452" font-style="italic">v</text>
+    </g>
+    <g font-size="16" text-anchor="end">
+      <text x="51" y="162">0</text><text x="51" y="290">0.5</text><text x="51" y="418">1</text>
+      <text x="507" y="162">0</text><text x="507" y="290">1</text><text x="507" y="418">2</text>
+    </g>
+
+    <text x="440" y="261" font-size="18" text-anchor="middle">UV × 2</text>
+    <path d="M388 278H486" stroke="#45566b" stroke-width="2" marker-end="url(#flecha)"/>
+    <g font-size="16" text-anchor="middle">
+      <text x="212" y="451">Una imagen completa</text>
+      <text x="668" y="451">Cuatro copias: 2 en u × 2 en v</text>
+    </g>
+    <text x="450" y="477" font-size="14" text-anchor="middle" fill="#8e4000">Las líneas naranjas delimitan cada copia completa del damero.</text>
+  </g>
+</svg>

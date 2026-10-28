@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Texturas</title>
+    <link rel="icon" href="data:,">
+    <link rel="stylesheet" href="style.css">
+    <script defer src="algebra.js"></script>
+    <script defer src="modelos.js"></script>
+    <script defer src="texturas.js"></script>
+    <script defer src="ejercicio.js"></script>
+    <script defer src="shaders.js"></script>
+    <script defer src="visor.js"></script>
+    <script defer src="minimapa.js"></script>
+    <script defer src="app.js"></script>
+</head>
+<body>
+    <header><h1>Texturas</h1></header>
+    <main>
+        <aside aria-label="Controles de texturas e iluminación">
+            <fieldset>
+                <legend><span>01</span> Textura</legend>
+                <label for="textura">Imagen</label>
+                <select id="textura"><option value="uv">Cuadrícula UV</option><option value="damero">Damero</option><option value="ladrillos">Ladrillos</option><option value="imagen" hidden>Imagen cargada</option></select>
+                <canvas id="imagen-textura" width="512" height="512" role="img" aria-label="Vista previa de la imagen de textura"></canvas>
+                <label class="file-button" for="archivo-textura">Cargar imagen<input id="archivo-textura" type="file" accept="image/png,image/jpeg,image/webp"></label>
+                <p class="hint" id="textura-info">Preparando la textura…</p>
+                <label for="filtro">Filtrado</label>
+                <select id="filtro"><option value="nearest">Vecino más cercano</option><option value="lineal">Bilineal</option><option value="mipmap" selected>Trilineal · mipmaps</option></select>
+                <label for="repeticiones">Repeticiones <output id="repeticiones-valor" for="repeticiones"></output></label>
+                <input id="repeticiones" type="range" min="1" max="16" step="1" value="1">
+                <div id="textura-unidades" class="texture-units" hidden>
+                    <p>Unidades de textura</p>
+                    <dl>
+                        <div><dt>Fragment shader</dt><dd id="unidades-fragment"></dd></div>
+                        <div><dt>Vertex shader</dt><dd id="unidades-vertex"></dd></div>
+                        <div><dt>Total combinado</dt><dd id="unidades-combinadas"></dd></div>
+                    </dl>
+                    <p class="hint">Límites que expone WebGL en este navegador. En este TP usamos la unidad 0.</p>
+                </div>
+            </fieldset>
+            <fieldset>
+                <legend><span>02</span> Geometría</legend>
+                <label for="modelo">Modelo</label>
+                <select id="modelo"><option value="esfera">Esfera</option><option value="toro">Toro</option><option value="cubo">Cubo</option><option value="plano">Plano</option><option value="obj" hidden>OBJ cargado</option></select>
+                <label for="detalle">Detalle de la malla</label>
+                <select id="detalle"><option value="8">Bajo</option><option value="16" selected>Medio</option><option value="32">Alto</option></select>
+                <label class="check"><input id="caras" type="checkbox"> Normales por cara</label>
+                <label for="escalaY">Escala vertical <output for="escalaY" id="escalaY-valor"></output></label>
+                <input id="escalaY" type="range" min="0.5" max="1.5" step="0.05" value="1">
+                <label class="file-button" for="archivo">Cargar OBJ<input id="archivo" type="file" accept=".obj"></label>
+                <p class="hint" id="modelo-info">Preparando la geometría…</p>
+            </fieldset>
+            <fieldset>
+                <legend><span>03</span> Material</legend>
+                <label for="ka"><span><input id="usar-ambiente" type="checkbox" checked aria-label="Activar componente ambiente"> Ambiente · Kₐ</span><output id="ka-valor" for="ka"></output></label>
+                <input id="ka" type="range" min="0" max="1" step="0.05" value="0.2">
+                <label for="kd"><span><input id="usar-difusa" type="checkbox" checked aria-label="Activar componente difusa"> Difusa · Kd</span><output id="kd-valor" for="kd"></output></label>
+                <input id="kd" type="range" min="0" max="1" step="0.05" value="0.8">
+                <label for="ks"><span><input id="usar-especular" type="checkbox" checked aria-label="Activar componente especular"> Especular · Ks</span><output id="ks-valor" for="ks"></output></label>
+                <input id="ks" type="range" min="0" max="1" step="0.05" value="0.3">
+                <label for="brillo">Exponente · α <output id="brillo-valor" for="brillo"></output></label>
+                <input id="brillo" type="range" min="1" max="256" step="1" value="64">
+                <p class="hint">Un exponente mayor concentra el reflejo especular.</p>
+            </fieldset>
+            <fieldset>
+                <legend><span>04</span> Luz direccional</legend>
+                <label for="luzAzimut">Azimut <output id="luzAzimut-valor" for="luzAzimut"></output></label>
+                <input id="luzAzimut" type="range" min="-180" max="180" value="-35">
+                <label for="luzElevacion">Elevación <output id="luzElevacion-valor" for="luzElevacion"></output></label>
+                <input id="luzElevacion" type="range" min="-85" max="85" value="40">
+                <label for="intensidad">Intensidad · I <output id="intensidad-valor" for="intensidad"></output></label>
+                <input id="intensidad" type="range" min="0" max="2" step="0.05" value="1">
+                <label for="ambiente">Luz ambiente · Iₐ <output id="ambiente-valor" for="ambiente"></output></label>
+                <input id="ambiente" type="range" min="0" max="1" step="0.05" value="0.25">
+                <p class="hint">La luz permanece fija en el mundo al girar la cámara.</p>
+            </fieldset>
+            <button id="restablecer" type="button">Restablecer escena</button>
+            <a class="docs" href="README.md">Consigna</a>
+        </aside>
+        <section class="laboratorio" aria-label="Comparación con y sin textura">
+            <div class="lab-heading"><div><h2>Del color uniforme a la textura.</h2><p>Misma geometría, cámara e iluminación de Phong.</p></div></div>
+            <div class="vistas">
+                <figure><figcaption><span class="view-index">A</span><div><h3>Sin textura</h3><p>Color uniforme del material</p></div></figcaption><canvas id="sin-textura" tabindex="0" aria-label="Objeto iluminado sin textura. Arrastrar o usar las flechas para girar; rueda o signos más y menos para acercar."></canvas><span class="view-foot">Material de color uniforme</span></figure>
+                <figure><figcaption><span class="view-index accent">B</span><div><h3>Con textura</h3><p>Color del material según las UV</p></div></figcaption><canvas id="con-textura" tabindex="0" aria-label="Objeto iluminado con textura. Cámara sincronizada con la vista sin textura."></canvas><span class="view-foot">Textura e iluminación por fragmento</span></figure>
+            </div>
+            <div class="help"><span>Arrastrar: girar cámara · Rueda: acercar · Flechas: girar</span><button type="button" id="vista-inicial">Restablecer vista</button></div>
+            <section class="referencia" aria-label="Referencia de cámara y luz en el mundo">
+                <canvas id="minimapa" role="img" aria-label="Vista del mundo: caja del objeto, cámara, frustum abreviado y dirección hacia la luz L."></canvas>
+            </section>
+            <p id="error" role="alert" hidden></p>
+            <noscript>Activá JavaScript para usar el visor.</noscript>
+        </section>
+    </main>
+    <footer><span>Coordenadas UV → textura → iluminación</span><span id="estado" role="status" aria-live="polite">Iniciando WebGL…</span></footer>
+</body>
+</html>
