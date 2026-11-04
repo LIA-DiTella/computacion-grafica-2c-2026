@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Ray tracing</title>
+    <link rel="icon" href="data:,">
+    <link rel="stylesheet" href="style.css">
+    <script defer src="escena.js"></script>
+    <script defer src="ejercicio.js"></script>
+    <script defer src="visor.js"></script>
+    <script defer src="app.js"></script>
+</head>
+<body>
+    <main>
+        <div class="controles" role="group" aria-label="Opciones y cámara">
+            <label><input id="sombras" type="checkbox"> Sombras</label>
+            <label><input id="reflejos" type="checkbox"> Reflejos</label>
+            <button id="restablecer" type="button">Restablecer cámara</button>
+            <span class="metricas">
+                <span id="resolucion"></span>
+                <span id="fps" title="Fotogramas por segundo; puede estar limitado por el refresco de pantalla.">— FPS</span>
+                <span id="tiempo-gpu" title="Tiempo medio de GPU para dibujar la escena, en milisegundos por fotograma. Menos es mejor.">GPU — ms</span>
+            </span>
+        </div>
+        <div class="visor">
+            <canvas id="vista" tabindex="0" aria-label="Escena trazada por rayos: dos esferas y dos cubos sobre un plano damero. Arrastrar para girar la cámara; rueda para acercar."></canvas>
+        </div>
+        <p id="error" role="alert" hidden></p>
+        <noscript>Activá JavaScript para usar el visor.</noscript>
+    </main>
+</body>
+</html>
