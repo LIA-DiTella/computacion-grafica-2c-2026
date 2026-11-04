@@ -35,21 +35,18 @@ vec3 iluminarPhong(vec3 p, vec3 normal, vec3 vista, float visible);
 vec3 direccionRayo(vec2 pixel) {
     // >>> COMPLETAR PASO 1
     // A. Expresar la posición del píxel en el rango [-1, 1] de cada eje.
-    float x = 2.0 * pixel.x / uResolucion.x - 1.0; // De coordenada en píxeles a [-1, 1].
-    float y = 2.0 * pixel.y / uResolucion.y - 1.0; // Lo mismo para el eje vertical.
+    // ...
 
     // B. Calcular la proporción ancho/alto y ubicar el centro del plano imagen.
-    float aspecto = uResolucion.x / uResolucion.y; // Ancho/alto: evita deformar la imagen.
-    vec3 centroPlano = uOjo - uEjeW; // Centro del plano imagen, una unidad delante del ojo.
+    // ...
 
     // C. Desplazarse desde ese centro sobre U y V hasta el punto del píxel.
     // uSemialto fija la escala vertical; aspecto ajusta la horizontal.
-    vec3 puntoPlano = centroPlano + x * aspecto * uSemialto * uEjeU
-                                  + y * uSemialto * uEjeV;
+    // ...
 
     // D. Formar el vector desde el ojo al punto y devolverlo con longitud 1.
-    vec3 direccion = puntoPlano - uOjo; // Vector desde el ojo hasta ese punto: destino menos origen.
-    return normalize(direccion); // Con longitud 1, t mide distancia sobre el rayo.
+    // ...
+    return vec3(0.0, 0.0, -1.0); // Retorno temporal para que el shader compile.
     // <<< FIN PASO 1
 }
 
@@ -60,26 +57,18 @@ vec3 direccionRayo(vec2 pixel) {
 float intersectar(vec3 origen, vec3 direccion, float limite) {
     // >>> COMPLETAR PASO 2
     // A. Empezar con distancia recorrida cero y repetir B y C hasta MAX_PASOS veces.
-    float t = 0.0; // Distancia recorrida desde el origen del rayo.
-    for (int paso = 0; paso < MAX_PASOS; paso++) {
-        // B. Evaluar el punto actual; si la SDF es menor que EPSILON, devolver t.
-        vec3 p = origen + t * direccion; // Punto del rayo que estamos evaluando.
+    // ...
 
-        // La superficie más cercana puede estar a un costado del rayo.
-        float distanciaSuperficie = distanciaEscena(p);
-        if (distanciaSuperficie < EPSILON) {
-            return t; // Devolvemos lo recorrido desde el origen hasta este encuentro.
-        }
+    // B. Evaluar el punto actual; si la SDF es menor que EPSILON, devolver t.
+    // Distinguí lo recorrido sobre el rayo de la distancia a la superficie más cercana.
+    // ...
 
-        // C. Avanzar según la SDF y cortar la búsqueda si alcanzamos limite.
-        t = t + distanciaSuperficie; // Esa distancia permite avanzar sin atravesar ningún objeto.
-        if (t >= limite) {
-            break; // Ya recorrimos todo el tramo que nos interesa.
-        }
-    }
+    // C. Avanzar según la SDF y cortar la búsqueda si alcanzamos limite.
+    // ...
 
     // D. Si la búsqueda terminó sin un encuentro, devolver -1.
-    return -1.0; // No encontramos una superficie dentro de los límites de búsqueda.
+    // ...
+    return -1.0; // Retorno temporal: todavía no buscamos encuentros.
     // <<< FIN PASO 2
 }
 
@@ -90,22 +79,17 @@ float intersectar(vec3 origen, vec3 direccion, float limite) {
 float visibilidad(vec3 p, vec3 normal) {
     // >>> COMPLETAR PASO 3
     // A. Ubicar el origen un poco fuera de la superficie para no detectarla otra vez.
-    float separacion = 4.0 * EPSILON; // Margen mayor que la tolerancia usada para detectar encuentros.
-    vec3 origen = p + separacion * normal; // Desplazamos el punto hacia afuera de la superficie.
+    // ...
 
     // B. Calcular la dirección unitaria hacia la luz y la distancia hasta ella.
-    vec3 haciaLuz = uPosLuz - origen; // Vector desde ese origen hasta la luz.
-    vec3 direccionLuz = normalize(haciaLuz); // Hacia dónde avanzar, con longitud 1.
-    float distanciaLuz = length(haciaLuz); // Hasta dónde avanzar: un objeto detrás de la luz no tapa.
+    // ...
 
     // C. Buscar un obstáculo solo en el tramo entre ese origen y la luz.
-    float t = intersectar(origen, direccionLuz, distanciaLuz);
+    // ...
 
     // D. Devolver 0 si hubo un encuentro, o 1 si el camino está libre.
-    if (t >= 0.0) {
-        return 0.0; // Encontramos un obstáculo antes de llegar a la luz: hay sombra.
-    }
-    return 1.0; // El camino hasta la luz está libre.
+    // ...
+    return 1.0; // Retorno temporal: suponemos que la luz llega al punto.
     // <<< FIN PASO 3
 }
 
@@ -129,30 +113,19 @@ vec3 colorLocal(vec3 p, vec3 direccion) {
 vec3 colorReflejado(vec3 p, vec3 direccion) {
     // >>> COMPLETAR PASO 4
     // A. Obtener la normal y calcular la dirección reflejada.
-    vec3 normal = normalEscena(p); // Normal unitaria en el punto donde rebota el rayo.
-
-    float proyeccionNormal = dot(direccion, normal); // Componente con signo sobre la normal; negativa al entrar.
-    vec3 componenteNormal = proyeccionNormal * normal; // Parte perpendicular a la superficie.
-    vec3 componenteTangente = direccion - componenteNormal; // El resto queda paralelo a la superficie.
-
-    // Al rebotar conservamos la parte tangente e invertimos la parte normal.
-    vec3 reflejada = componenteTangente - componenteNormal;
-    reflejada = normalize(reflejada); // El nuevo rayo también necesita una dirección unitaria.
+    // Conservá la componente tangente e invertí la componente normal.
+    // ...
 
     // B. Ubicar el origen un poco fuera de la superficie.
-    float separacion = 4.0 * EPSILON; // El mismo margen que usamos para el rayo hacia la luz.
-    vec3 origen = p + separacion * normal; // Empezamos fuera de la superficie para no volver a detectarla.
+    // ...
 
     // C. Buscar el primer encuentro del nuevo rayo; si escapa, devolver el fondo.
-    float t = intersectar(origen, reflejada, DISTANCIA_MAXIMA); // Buscamos qué se ve en el reflejo.
-    if (t < 0.0) {
-        return FONDO; // Si no encuentra otro objeto, refleja el fondo.
-    }
+    // ...
 
     // D. Ubicar el encuentro y devolver su color local, sin generar otro rebote.
     // colorLocal usa la dirección opuesta a reflejada como dirección de vista.
-    vec3 encuentro = origen + t * reflejada; // Posición del segundo encuentro en el mundo.
-    return colorLocal(encuentro, reflejada);
+    // ...
+    return vec3(0.0, 0.0, 0.0); // Retorno temporal: todavía no calculamos el color reflejado.
     // <<< FIN PASO 4
 }
 
