@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Path tracing</title>
+    <link rel="icon" href="data:,">
+    <link rel="stylesheet" href="style.css">
+    <script defer src="ejercicio.js"></script>
+    <script defer src="visor.js"></script>
+    <script defer src="app.js"></script>
+</head>
+<body>
+    <main>
+        <div class="controles" aria-label="Muestreo y cámara">
+            <label>Muestreo <select id="muestreo">
+                <option value="uniforme">Uniforme</option>
+                <option value="coseno">Por coseno</option>
+            </select></label>
+            <label>Rebotes <select id="rebotes">
+                <option value="1">1</option><option value="2">2</option>
+                <option value="4" selected>4</option><option value="8">8</option>
+            </select></label>
+            <button id="pausar" type="button" aria-pressed="false">Pausar</button>
+            <button id="reiniciar" type="button">Reiniciar muestras</button>
+            <button id="recargar" type="button">Recargar shader</button>
+            <button id="restablecer" type="button">Restablecer cámara</button>
+            <span class="metricas">
+                <span id="muestras">0 muestras/píxel</span>
+                <span id="fps">— FPS</span><span id="tiempo-gpu">GPU — ms</span>
+            </span>
+        </div>
+        <div class="visor">
+            <canvas id="vista" tabindex="0" aria-label="Path tracing de una caja con paredes de color, una esfera, un cubo y una luz de área. Arrastrá para girar la cámara; la imagen vuelve a acumular al detenerse."></canvas>
+            <span id="estado" role="status">Cargando shaders…</span>
+        </div>
+        <pre id="error" role="alert" hidden></pre>
+        <noscript>Activá JavaScript para usar el visor.</noscript>
+    </main>
+</body>
+</html>

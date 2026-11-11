@@ -1,0 +1,26 @@
+:root { color-scheme: dark; font: 13px Arial, sans-serif; color: #d9dfdf; background: #1c2022; }
+* { box-sizing: border-box; }
+body { margin: 0; height: 100vh; height: 100dvh; }
+main { position: relative; height: 100%; display: flex; flex-direction: column; padding: 10px; gap: 8px; }
+.controles { display: flex; align-items: center; flex-wrap: wrap; gap: 8px 12px; flex-shrink: 0; }
+.controles label { display: flex; align-items: center; gap: 6px; }
+button, select { color: inherit; font: inherit; background: #2a3033; border: 1px solid #495358; border-radius: 5px; padding: 7px 10px; cursor: pointer; }
+button:hover, select:hover { background: #384146; }
+button:disabled { cursor: wait; opacity: .6; }
+button[aria-pressed="true"] { background: #385450; }
+:focus-visible { outline: 2px solid #72c8b6; outline-offset: 3px; }
+.metricas { margin-left: auto; display: flex; flex-wrap: wrap; gap: 12px; color: #a6b9b7; font-size: 11px; font-variant-numeric: tabular-nums; }
+.metricas span { white-space: nowrap; }
+#muestras { color: #dfedea; }
+.visor { position: relative; flex: 1; min-height: 140px; overflow: hidden; border-radius: 6px; border: 1px solid #394145; background: #000; }
+canvas { width: 100%; height: 100%; display: block; cursor: grab; touch-action: none; }
+canvas:active { cursor: grabbing; }
+#estado { position: absolute; bottom: 12px; left: 12px; padding: 6px 10px; border-radius: 5px; background: #20272cdd; color: #dfe8e8; font-size: 11px; pointer-events: none; }
+#error { position: absolute; bottom: 20px; left: 20px; right: 20px; z-index: 2; white-space: pre-wrap; overflow-wrap: anywhere; max-height: 28vh; overflow: auto; margin: 0; padding: 12px; border: 1px solid #af625b; background: #341e1ef5; color: #ffd8d0; font: 12px/1.5 monospace; }
+[hidden] { display: none !important; }
+@media(max-width: 650px) {
+    main { padding: 6px; gap: 6px; }
+    .controles { gap: 6px; }
+    button, select { font-size: 12px; padding: 7px 8px; }
+    .metricas { width: 100%; justify-content: flex-end; }
+}
