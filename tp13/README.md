@@ -34,9 +34,10 @@ al iniciar o reiniciar la acumulación:
 
 cada frame:
     para cada píxel:
-        crear un rayo desde el ojo hacia un punto aleatorio dentro del píxel
+        origen = posición del ojo
+        direccion = dirección hacia un punto aleatorio dentro del píxel
         // *** A IMPLEMENTAR: PASO 2 ***
-        muestraNueva = trazarCamino(rayo)
+        muestraNueva = trazarCamino(origen, direccion)
         leer el promedioAnterior guardado para este píxel
         // *** A IMPLEMENTAR: PASO 3 ***
         promedioNuevo = acumularMuestra(promedioAnterior, muestraNueva, cantidadAnterior)
@@ -47,18 +48,19 @@ cada frame:
 
 // Se llama una vez por píxel y frame, con el rayo que sale de la cámara.
 // Busca la primera colisión y sigue los rebotes para estimar luz directa e indirecta.
-trazarCamino(rayo):
+trazarCamino(origen, direccion):
     pesoCamino = (1, 1, 1)
     rebotesRealizados = 0
     repetir:
-        buscar la próxima colisión con intersectar()
-        si no hay colisión:
+        distanciaColision = intersectar(origen, direccion)
+        si distanciaColision < 0:
             devolver cero
 
-        indiceObjeto = objetoCercano()
+        puntoColision = origen + distanciaColision * direccion
+        indiceObjeto = objetoCercano(puntoColision)
         colorDifuso = colorDifusoObjeto(indiceObjeto)  // Color del material de ese objeto.
-        obtener su normal con normalObjeto()
-        obtener su emisión con emisionObjeto()
+        normal = normalObjeto(puntoColision, indiceObjeto)
+        emisión = emisionObjeto(indiceObjeto, normal)
         si emite luz:
             devolver pesoCamino * emisión
 
@@ -70,11 +72,14 @@ trazarCamino(rayo):
         numeroAngulo = aleatorio()  // Para elegir el ángulo alrededor de ese eje.
 
         // *** A IMPLEMENTAR: PASO 1 ***
-        direcciónSiguiente = muestrearHemisferio(normal, numeroAltura, numeroAngulo)
+        direccionSiguiente = muestrearHemisferio(normal, numeroAltura, numeroAngulo)
         
-        pesoRebote = pesoMonteCarlo(colorDifuso, normal, direcciónSiguiente)
+        pesoRebote = pesoMonteCarlo(colorDifuso, normal, direccionSiguiente)
         pesoCamino = pesoCamino * pesoRebote
-        separar el origen de la superficie y usar direcciónSiguiente
+
+        // Preparar el rayo que usará intersectar() en la próxima vuelta.
+        origen = puntoColision + SEPARACION * normal  // Evitar repetir la misma colisión.
+        direccion = direccionSiguiente
         rebotesRealizados = rebotesRealizados + 1
 ```
 
