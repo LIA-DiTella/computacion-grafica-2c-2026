@@ -9,7 +9,7 @@ En cada colisión con una superficie difusa elegimos **una dirección aleatoria*
 continuar, mientras queden rebotes. El `N = 1` de path tracing significa una continuación por rebote;
 para obtener el color del píxel, promediamos **muchos caminos**. El estimador Monte Carlo es:
 
-$$L_o \approx \frac{1}{N}\sum_{i=1}^{N}\frac{L_i\,f_r\,\cos(\theta_i)}{\operatorname{pdf}(\omega_i)}$$
+$$L_o \approx \frac{1}{N}\sum_{i=1}^{N}\frac{L_i\,f_r\,\cos(\theta_i)}{\mathrm{pdf}(\omega_i)}$$
 
 Usaremos una caja con paredes de color, dos objetos difusos y un panel luminoso en el
 techo. Los caminos que alcanzan ese panel aportan luz, multiplicada por los pesos
